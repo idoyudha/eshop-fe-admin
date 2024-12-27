@@ -2,16 +2,19 @@
 
 import * as React from "react"
 import {
-  AudioWaveform,
   BookOpen,
   Bot,
-  Command,
+  Box,
+  Car,
+  Container,
+  CreditCard,
   Frame,
   GalleryVerticalEnd,
   Map,
   PieChart,
   Settings2,
   SquareTerminal,
+  Warehouse,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -29,109 +32,52 @@ import {
 // This is sample data.
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    name: "admin",
+    email: "admin@eshop.com",
+    avatar: "/avatars/ido.jpg",
   },
   teams: [
     {
-      name: "Acme Inc",
+      name: "Eshop",
       logo: GalleryVerticalEnd,
       plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
     },
   ],
   navMain: [
     {
-      title: "Playground",
+      title: "Products",
       url: "#",
-      icon: SquareTerminal,
+      icon: Car,
       isActive: true,
       items: [
         {
-          title: "History",
+          title: "List",
           url: "#",
         },
         {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
+          title: "Categories",
           url: "#",
         },
       ],
     },
     {
-      title: "Models",
+      title: "Order",
       url: "#",
-      icon: Bot,
+      icon: Container,
       items: [
         {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
+          title: "List",
           url: "#",
         },
       ],
     },
     {
-      title: "Documentation",
+      title: "Payment",
       url: "#",
-      icon: BookOpen,
+      icon: CreditCard,
       items: [
         {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
+          title: "List",
           url: "#",
         },
       ],
@@ -139,19 +85,14 @@ const data = {
   ],
   projects: [
     {
-      name: "Design Engineering",
+      name: "Warehouse",
       url: "#",
-      icon: Frame,
+      icon: Warehouse,
     },
     {
-      name: "Sales & Marketing",
+      name: "Sales",
       url: "#",
       icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
     },
   ],
 }
