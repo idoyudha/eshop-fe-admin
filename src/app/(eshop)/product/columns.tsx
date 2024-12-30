@@ -2,6 +2,7 @@
  
 import { Product } from "@/models/product"
 import { ColumnDef } from "@tanstack/react-table"
+import Image from "next/image"
 
 export const columns: ColumnDef<Product>[] = [
     {
@@ -13,16 +14,33 @@ export const columns: ColumnDef<Product>[] = [
         header: "Name",
     },
     {
-        accessorKey: "category",
+        accessorKey: "category_id",
         header: "Category",
     },
     {
         accessorKey: "image_url",
         header: "Image",
-    },
-    {
-        accessorKey: "description",
-        header: "Description",
+        cell: ({ row }) => {
+            const image_url = row.getValue("image_url") as string
+            return (
+                <div>
+                    {image_url ? (
+                        <Image
+                            src={image_url}
+                            alt={`${row.getValue("name")}`}
+                            width={50}
+                            height={50}
+                            className="object-cover rounded-md"
+                            priority={false}
+                        />
+                    ) : (
+                        <div className="w-[50px] h-[50px] bg-gray-100 rounded-md flex items-center justify-center">
+                            <span className="text-gray-400 text-xs">No image</span>
+                        </div>
+                    )}
+                </div>
+            )
+        }
     },
     {
         accessorKey: "price",
