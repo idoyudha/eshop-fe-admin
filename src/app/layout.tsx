@@ -2,20 +2,9 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
-
 export const metadata: Metadata = {
-  title: "Eshop Admin",
-  description: "Eshop Admin page for managing products and orders",
+  title: "Eshop Ecommerce Admin Dashboard",
+  description: "Managing Eshop Ecommerce",
 };
 
 export default function RootLayout({
@@ -25,10 +14,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className="flex min-h-full flex-col">
+        <div className="flex min-h-full flex-1 flex-col bg-white" vaul-drawer-wrapper="">
+          {children}
+        </div>
       </body>
     </html>
   );
