@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Providers } from "./provider";
 
 export const metadata: Metadata = {
   title: "Eshop Ecommerce Admin Dashboard",
@@ -15,9 +16,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex min-h-full flex-col">
-        <div className="flex min-h-full flex-1 flex-col bg-white" vaul-drawer-wrapper="">
-          {children}
-        </div>
+        <Providers>
+          <div className="flex min-h-full flex-1 flex-col bg-white" vaul-drawer-wrapper="">
+            {children}
+          </div>
+        </Providers>
       </body>
     </html>
   );
