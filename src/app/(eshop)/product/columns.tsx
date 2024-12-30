@@ -7,7 +7,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import Image from "next/image"
 
 export function useProductColumns() {
-    const { categories, isLoading } = useCategories()
+    const { categoriesMap, isLoading } = useCategories()
 
     const columns: ColumnDef<Product>[] = [
         {
@@ -26,7 +26,7 @@ export function useProductColumns() {
                 return isLoading ? (
                     <span className="text-gray-400">Loading...</span>
                 ) : (
-                    <span>{categories[categoryId] || 'Unknown'}</span>
+                    <span>{categoriesMap[categoryId] || 'Unknown'}</span>
                 )
             }
         },

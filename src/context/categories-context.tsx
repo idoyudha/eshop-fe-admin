@@ -1,34 +1,36 @@
 "use client"
 
 import { getAllCategoriesAction } from "@/actions/product-actions";
+import { ParentCategory } from "@/models/category";
 import { createContext, useContext, useEffect, useState } from "react";
 
-type CategoryMap = {
-    [key: string]: string;
-}
 
 interface CategoriesContextType {
-    categories: CategoryMap;
+    categories: ParentCategory[];
+    categoriesMap: { [key: string]: string };
     isLoading: boolean;
 }
 
 const CategoriesContext = createContext<CategoriesContextType>({
-    categories: {},
+    categories: [],
+    categoriesMap: {},
     isLoading: true,
 })
 
 export function CategoriesProvider({ children }: { children: React.ReactNode }) {
-    const [categoriesMap, setCategoriesMap] = useState<CategoryMap>({})
+    const [categories, setCategories] = useState<ParentCategory[]>([])
+    const [categoriesMap, setCategoriesMap] = useState<{ [key: string]: string }>({})
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const categories = await getAllCategoriesAction()
-                const mappedCategories: CategoryMap = {}
+                const fetchedCategories = await getAllCategoriesAction()
+                setCategories(fetchedCategories)
 
-                // pap both parent and child categories
-                categories.forEach(parent => {
+                // create the map for id to name mapping
+                const mappedCategories: { [key: string]: string } = {}
+                fetchedCategories.forEach(parent => {
                     // add parent category
                     mappedCategories[parent.id] = parent.name
 
@@ -50,7 +52,11 @@ export function CategoriesProvider({ children }: { children: React.ReactNode }) 
     }, [])
 
     return (
-        <CategoriesContext.Provider value={{ categories: categoriesMap, isLoading }}>
+        <CategoriesContext.Provider value={{ 
+            categories, 
+            categoriesMap,
+            isLoading 
+        }}>
             {children}
         </CategoriesContext.Provider>
     )

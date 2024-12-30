@@ -12,13 +12,23 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Product } from "@/models/product"
 import { DropdownMenuItem } from "./ui/dropdown-menu"
+import { useState } from "react"
+import { useCategories } from "@/context/categories-context"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select"
 
 export function EditProductDialog(product: Product) {
-    console.log("product", product)
+    const [open, setOpen] = useState(false)
+    const { categories, categoriesMap, isLoading } = useCategories()
+    
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <DropdownMenuItem>Edit</DropdownMenuItem>
+                <DropdownMenuItem onSelect={(e) => {
+                    e.preventDefault()
+                    setOpen(true)
+                }}>
+                    Edit
+                </DropdownMenuItem>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
@@ -32,25 +42,54 @@ export function EditProductDialog(product: Product) {
                         <Label htmlFor="name" className="text-right">
                             Name
                         </Label>
-                        <Input id="name" value="X1" className="col-span-3" />
+                        <Input id="name" defaultValue={product.name} className="col-span-3" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="category" className="text-right">
                             Category
                         </Label>
-                        <Input id="category" value="bmw" className="col-span-3" />
+                        <div className="col-span-3">
+                            <Select defaultValue={product.category_id}>
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Select a category">
+                                        {categoriesMap[product.category_id] || "Select a category"}
+                                    </SelectValue>
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {isLoading ? (
+                                        <SelectItem value="loading" disabled>
+                                            Loading categories...
+                                        </SelectItem>
+                                    ) : (
+                                        categories.map(parent => (
+                                            <SelectGroup key={parent.id}>
+                                                <SelectLabel>{parent.name}</SelectLabel>
+                                                {parent.childs.map(child => (
+                                                    <SelectItem 
+                                                        key={child.id} 
+                                                        value={child.id}
+                                                    >
+                                                        {child.name}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectGroup>
+                                        ))
+                                    )}
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="image" className="text-right">
                             Image
                         </Label>
-                        <Input id="image" value="image" className="col-span-3" />
+                        <Input id="image" defaultValue={product.image_url} className="col-span-3" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="price" className="text-right">
                             Price
                         </Label>
-                        <Input id="price" value="0" className="col-span-3" />
+                        <Input id="price" defaultValue={product.price}  className="col-span-3" />
                     </div>
                 </div>
                 <DialogFooter>
