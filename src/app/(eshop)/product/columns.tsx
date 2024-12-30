@@ -1,12 +1,9 @@
 "use client"
  
-import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
+import { ActionProductDropdown } from "@/components/action-product-dropdown"
 import { useCategories } from "@/context/categories-context"
 import { Product } from "@/models/product"
-import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
 import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
 import Image from "next/image"
 
 export function useProductColumns() {
@@ -29,7 +26,7 @@ export function useProductColumns() {
                 return isLoading ? (
                     <span className="text-gray-400">Loading...</span>
                 ) : (
-                    <span>{categories[categoryId] || 'Unknown Category'}</span>
+                    <span>{categories[categoryId] || 'Unknown'}</span>
                 )
             }
         },
@@ -59,10 +56,6 @@ export function useProductColumns() {
             },
         },
         {
-            accessorKey: "description",
-            header: "Description",
-        },
-        {
             accessorKey: "price",
             header: "Price",
         },
@@ -76,20 +69,7 @@ export function useProductColumns() {
             cell: ({ row }) => {
                 const product = row.original
                 return (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                                <span className="sr-only">Open menu</span>
-                                <MoreHorizontal />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem>Edit</DropdownMenuItem>
-                            <DropdownMenuItem>Delete</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <ActionProductDropdown {...product} />
                 )
             }
         }
