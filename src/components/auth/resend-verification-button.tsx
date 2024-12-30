@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
-// import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/context/auth-context';
 
 export function ResendVerificationButton({ username }: { username: string }) {
-    // const { resendVerificationCode } = useAuth();
+    const { resendVerificationCode } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
     const [cooldown, setCooldown] = useState(0);
 
@@ -14,7 +14,7 @@ export function ResendVerificationButton({ username }: { username: string }) {
 
         setIsLoading(true);
         try {
-            // await resendVerificationCode(username);
+            await resendVerificationCode(username);
             setCooldown(30);
             const timer = setInterval(() => {
                 setCooldown((prev) => {

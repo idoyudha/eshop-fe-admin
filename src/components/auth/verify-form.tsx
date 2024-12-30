@@ -7,21 +7,22 @@ import { Label } from "../ui/label"
 import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import { ResendVerificationButton } from "./resend-verification-button"
+import { useAuth } from "@/context/auth-context"
+import { toast } from "sonner"
 
 export function VerifyForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
     const [email, setEmail] = useState("")
     const [code, setCode] = useState("")
-    const router = useRouter()
 
-    // const { confirmSignupCode } = useAuth()
+    const { confirmSignupCode } = useAuth()
     const handleConfirmSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
 
         try {
-            // await confirmSignupCode(email, code);
-            // toast.success('Successfully verified, please log in');
+            await confirmSignupCode(email, code);
+            toast.success('Successfully verified, please log in');
         } catch (error) {
-            // toast.error('Verification failed. Please check the code and try again.');
+            toast.error('Verification failed. Please check the code and try again.');
         }
     }
 

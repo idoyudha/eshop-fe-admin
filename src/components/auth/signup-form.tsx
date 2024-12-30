@@ -13,6 +13,8 @@ import {
 import { Label } from "@radix-ui/react-label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useAuth } from "@/context/auth-context";
+import { toast } from "sonner";
 
 export function SignupForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
     const [email, setEmail] = useState("")
@@ -20,18 +22,19 @@ export function SignupForm({ className, ...props }: React.ComponentPropsWithoutR
     const [name, setName] = useState("")
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    const router = useRouter()
+    const { signup } = useAuth()
 
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
         if (password !== confirmPassword) {
+            toast.error('Passwords do not match');
             return;
         }
         try {
-            // await signup(email, username, name, password);
-            // toast.success('Successfully signed up, please check your email for verification code');
+            await signup(email, username, name, password);
+            toast.success('Successfully signed up, please check your email for verification code');
         } catch (error) {
-            // toast.error('Signup failed. Please check your credentials and try again.');
+            toast.error('Signup failed. Please check your credentials and try again.');
         }
     };
 
