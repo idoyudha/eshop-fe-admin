@@ -1,5 +1,10 @@
-export interface Category {
+export interface ParentCategory {
     id: string;
     name: string;
-    parent_id: string;
+    childs: ChildCategory[];
+}
+
+interface ChildCategory {
+    id: string;
+    name: string;
 }

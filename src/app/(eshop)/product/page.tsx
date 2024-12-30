@@ -1,9 +1,8 @@
 import { getAllProductsAction } from "@/actions/product-actions";
-import { DataTable } from "@/components/data-table";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { columns } from "./columns";
+import { ClientDataTable } from "./data-table-product-client";
 
 export default async function ProductPage() {
     const products = await getAllProductsAction();
@@ -33,7 +32,7 @@ export default async function ProductPage() {
             </div>
             </header>
             <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                <DataTable columns={columns} data={products} />
+                <ClientDataTable products={products} />
             </div>
         </>
     )

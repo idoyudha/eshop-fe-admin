@@ -8,9 +8,9 @@ export function cn(...inputs: ClassValue[]) {
 export function getBaseUrl(serviceName: string) {
 	if (typeof window === 'undefined') {
 		// server-side
-    return process.env[serviceName] || '';
+    	return process.env[serviceName] || '';
 	}
 	// client-side
 	const nextPublicName = `NEXT_PUBLIC_${serviceName}`;
-  return process.env[nextPublicName] || '';
+ 	return process.env[nextPublicName] || '';
 }

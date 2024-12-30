@@ -10,6 +10,6 @@ Amplify.configure(authConfig, {
     ssr: true
 });
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export function AuthProviders({ children }: { children: React.ReactNode }) {
     return <AuthProvider>{children}</AuthProvider>
 }

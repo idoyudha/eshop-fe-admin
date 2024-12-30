@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
-import { Providers } from "./provider";
+import { AuthProviders } from "./auth-provider";
+import { CategoriesProvider } from "@/context/categories-context";
 
 export const metadata: Metadata = {
   title: "Eshop Ecommerce Admin Dashboard",
@@ -16,11 +16,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex min-h-full flex-col">
-        <Providers>
-          <div className="flex min-h-full flex-1 flex-col bg-white" vaul-drawer-wrapper="">
-            {children}
-          </div>
-        </Providers>
+        <AuthProviders>
+          <CategoriesProvider>
+            <div className="flex min-h-full flex-1 flex-col bg-white" vaul-drawer-wrapper="">
+              {children}
+            </div>
+          </CategoriesProvider>
+        </AuthProviders>
       </body>
     </html>
   );
