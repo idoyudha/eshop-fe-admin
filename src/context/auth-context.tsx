@@ -31,14 +31,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 const currentUser = await getCurrentUser();
                 setUser(currentUser);
                 setIsAuthenticated(true);
-
-                // explicitly fetch session
-                const session = await fetchAuthSession();
-                console.log("session data:", session);
-                
-                if (session?.tokens?.accessToken) {
-                    console.log("access token found:", session.tokens.accessToken);
-                }
             } catch (error) {
                 setUser(null);
                 setIsAuthenticated(false);

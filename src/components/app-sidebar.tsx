@@ -25,7 +25,7 @@ const data = {
   user: {
     name: "admin",
     email: "admin@eshop.com",
-    avatar: "/avatars/ido.jpg",
+    // avatar: "/avatars/ido.jpg",
   },
   customer: [
     {
