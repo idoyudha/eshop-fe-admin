@@ -1,12 +1,8 @@
 "use client"
 
 import {
-  BadgeCheck,
-  Bell,
   ChevronsUpDown,
-  CreditCard,
   LogOut,
-  Sparkles,
 } from "lucide-react"
 
 import {
@@ -29,6 +25,10 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useAuth } from "@/context/auth-context"
+import { toast } from "sonner"
+import { Button } from "./ui/button"
+import { useState } from "react"
 
 export function NavUser({
   user,
@@ -40,6 +40,20 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const [isLoading, setIsLoading] = useState(false);
+  const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      setIsLoading(true);
+      await logout();
+      toast.success("Logged out successfully");
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <SidebarMenu>
@@ -81,8 +95,10 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <LogOut />
-              Log out
+              <Button onClick={handleLogout} disabled={isLoading}>
+                <LogOut />
+                {isLoading ? "Logging out..." : "Logout"}
+              </Button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
