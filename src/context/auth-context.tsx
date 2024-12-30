@@ -71,7 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
                 setUser(currentUser);
                 setIsAuthenticated(true);
-                router.push('/');
+                router.push('/product');
             }
         } catch (error) {
             console.error('login error:', error);
