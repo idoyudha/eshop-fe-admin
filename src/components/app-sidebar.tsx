@@ -2,25 +2,16 @@
 
 import * as React from "react"
 import {
-  BookOpen,
-  Bot,
-  Box,
   Car,
   Container,
   CreditCard,
-  Frame,
   GalleryVerticalEnd,
-  Map,
   PieChart,
-  Settings2,
-  SquareTerminal,
   Warehouse,
 } from "lucide-react"
 
-import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
+import { NavItems } from "@/components/nav-items"
 import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
@@ -36,62 +27,32 @@ const data = {
     email: "admin@eshop.com",
     avatar: "/avatars/ido.jpg",
   },
-  teams: [
+  customer: [
     {
-      name: "Eshop",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-  ],
-  navMain: [
-    {
-      title: "Products",
-      url: "#",
+      name: "Products",
+      url: "/product",
       icon: Car,
-      isActive: true,
-      items: [
-        {
-          title: "List",
-          url: "#",
-        },
-        {
-          title: "Categories",
-          url: "#",
-        },
-      ],
     },
     {
-      title: "Order",
-      url: "#",
+      name: "Orders",
+      url: "/order",
       icon: Container,
-      items: [
-        {
-          title: "List",
-          url: "#",
-        },
-      ],
     },
     {
-      title: "Payment",
-      url: "#",
+      name: "Payments",
+      url: "/payment",
       icon: CreditCard,
-      items: [
-        {
-          title: "List",
-          url: "#",
-        },
-      ],
     },
   ],
-  projects: [
+  admin: [
     {
       name: "Warehouse",
-      url: "#",
+      url: "/warehouse",
       icon: Warehouse,
     },
     {
       name: "Sales",
-      url: "#",
+      url: "/sales",
       icon: PieChart,
     },
   ],
@@ -101,11 +62,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <h2>Dashboard</h2>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavItems items={data.customer} />
+        <NavItems items={data.admin} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
