@@ -60,7 +60,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
                 setUser(currentUser);
                 setIsAuthenticated(true);
-                router.push('/');
             }
         } catch (error) {
             console.error('login error:', error);
@@ -82,11 +81,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                         enabled: true
                     }
                 }
-            });
-
-            if (isSignUpComplete) {
-                router.push('/auth/verify');
-            }
+            })
         } catch (error) {
             console.error('signup error:', error);
             throw error;
@@ -99,10 +94,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 username: email,
                 confirmationCode: code
             });
-
-            if (isSignUpComplete) {
-                router.push('/');
-            }
         } catch (error) {
             console.error('confirmation error:', error);
             throw error;
@@ -123,7 +114,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             await signOut();
             setUser(null);
             setIsAuthenticated(false);
-            router.push('/auth/login');
         } catch (error) {
             console.error('logout error:', error);
         }

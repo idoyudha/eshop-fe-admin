@@ -26,10 +26,10 @@ export function SignupForm({ className, ...props }: React.ComponentPropsWithoutR
     const [loading, setLoading] = useState(false)
     const { signup } = useAuth()
     const { toast } = useToast();
+    const router = useRouter();
 
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('handleSignUp email', email)
         if (password !== confirmPassword) {
             console.log('password mismatch')
             toast({
@@ -46,6 +46,7 @@ export function SignupForm({ className, ...props }: React.ComponentPropsWithoutR
                 title: 'Signup successful',
                 description: 'Signup successful. Please check your email for verification code.',
             })
+            router.push('/auth/verify');
         } catch (error) {
             toast({
                 variant: 'destructive',

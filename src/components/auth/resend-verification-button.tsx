@@ -3,11 +3,13 @@
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/context/auth-context';
+import { useToast } from '@/hooks/use-toast';
 
 export function ResendVerificationButton({ username }: { username: string }) {
     const { resendVerificationCode } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
     const [cooldown, setCooldown] = useState(0);
+    const { toast } = useToast();
 
     const handleResend = async () => {
         if (cooldown > 0 || isLoading) return;
@@ -27,6 +29,11 @@ export function ResendVerificationButton({ username }: { username: string }) {
             }, 1000);
         } catch (error) {
             console.error('Failed to resend code:', error);
+            toast({
+                variant: 'destructive',
+                title: 'Failed to resend code',
+                description: 'Failed to resend code. Please try again.',
+            })
         } finally {
             setIsLoading(false);
         }

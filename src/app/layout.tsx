@@ -18,9 +18,10 @@ export default function RootLayout({
     <html lang="en">
       <body className="flex min-h-full flex-col">
         <AuthProviders>
-            <div className="flex min-h-full flex-1 flex-col bg-white" vaul-drawer-wrapper="">
-              {children}
-            </div>
+          <div className="flex min-h-full flex-1 flex-col bg-white" vaul-drawer-wrapper="">
+            {children}
+          </div>
+          <Toaster />
         </AuthProviders>
       </body>
     </html>
