@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProviders } from "./auth-provider";
-import { CategoriesProvider } from "@/context/categories-context";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {

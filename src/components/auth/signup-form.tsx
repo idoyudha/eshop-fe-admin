@@ -31,7 +31,6 @@ export function SignupForm({ className, ...props }: React.ComponentPropsWithoutR
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
         if (password !== confirmPassword) {
-            console.log('password mismatch')
             toast({
                 variant: 'destructive',
                 title: 'Password mismatch',

@@ -52,7 +52,6 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
         e.preventDefault();
         try {
             await signInWithRedirect({ provider: 'Google' });
-            router.push('/');
         } catch (error) {
             console.error('Google login error:', error);
             toast({
