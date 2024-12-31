@@ -29,6 +29,8 @@ import { useAuth } from "@/context/auth-context"
 import { toast } from "sonner"
 import { Button } from "./ui/button"
 import { useState } from "react"
+import { useToast } from "@/hooks/use-toast"
+import { useRouter } from "next/navigation"
 
 export function NavUser({
   user,
@@ -42,14 +44,25 @@ export function NavUser({
   const { isMobile } = useSidebar()
   const [isLoading, setIsLoading] = useState(false);
   const { logout } = useAuth();
+  const { toast } = useToast();
+  const router = useRouter();
 
   const handleLogout = async () => {
     try {
       setIsLoading(true);
       await logout();
-      toast.success("Logged out successfully");
+      toast({
+        title: 'Logout successful',
+        description: 'Logout successful.',
+      })
+      router.push('/auth/login');
     } catch (error) {
       console.error('Logout error:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Logout failed',
+        description: 'Logout failed. Please try again.',
+    })
     } finally {
       setIsLoading(false);
     }
