@@ -58,12 +58,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             if (isSignedIn) {
                 const currentUser = await getCurrentUser();
 
-                const session = await fetchAuthSession();
-                console.log("login session:", session);
-
                 setUser(currentUser);
                 setIsAuthenticated(true);
-                router.push('/product');
+                router.push('/');
             }
         } catch (error) {
             console.error('login error:', error);

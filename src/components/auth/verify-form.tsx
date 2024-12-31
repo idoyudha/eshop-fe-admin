@@ -8,21 +8,36 @@ import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import { ResendVerificationButton } from "./resend-verification-button"
 import { useAuth } from "@/context/auth-context"
-import { toast } from "sonner"
+import { Loader2 } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
 
 export function VerifyForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
     const [email, setEmail] = useState("")
     const [code, setCode] = useState("")
-
+    const [loading, setLoading] = useState(false)
+    const router = useRouter()
     const { confirmSignupCode } = useAuth()
+    const { toast } = useToast();
     const handleConfirmSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
 
         try {
+            setLoading(true);
             await confirmSignupCode(email, code);
-            toast.success('Successfully verified, please log in');
+            toast({
+                title: 'Verification successful',
+                description: 'Verification successful. You can now login.',
+            })
+            router.push('/auth/login');
         } catch (error) {
-            toast.error('Verification failed. Please check the code and try again.');
+            console.log('verify error:', error);
+            toast({
+                variant: 'destructive',
+                title: 'Verification failed',
+                description: 'Verification failed. Please try again.',
+            })
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -59,8 +74,8 @@ export function VerifyForm({ className, ...props }: React.ComponentPropsWithoutR
                                 />
                             </div>
                             
-                            <Button type="submit" className="w-full">
-                                Verify
+                            <Button type="submit" className="w-full" disabled={loading}>
+                                {loading ? <Loader2 className="animate-spin" /> : 'Verify'}
                             </Button>
 
                             <div className="text-center">

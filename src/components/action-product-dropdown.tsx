@@ -17,7 +17,6 @@ export const ActionProductDropdown = (product : Product) => {
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <EditProductDialog {...product} />
-                <DropdownMenuItem>Delete</DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     )
