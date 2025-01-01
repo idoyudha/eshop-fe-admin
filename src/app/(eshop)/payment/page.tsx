@@ -9,11 +9,13 @@ import { Payment } from "@/models/payment";
 import { useEffect, useState } from "react";
 import { ClientDataTable } from "./data-table-payment-client";
 import { Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function PaymentPage() {
     const { getAccessToken } = useAuth()
     const [payments, setPayments] = useState<Payment[]>([]);
     const [loading, setLoading] = useState(false)
+    const { toast } = useToast();
 
     const fetchPayments = async () => {
         try {
@@ -25,6 +27,11 @@ export default function PaymentPage() {
             }
         } catch (error) {
             setPayments([]);
+            toast({
+                variant: "destructive",
+                title: "Error",
+                description: "Error fetching payments",
+            })
             console.error('Error fetching payments:', error);
         } finally {
             setLoading(false);

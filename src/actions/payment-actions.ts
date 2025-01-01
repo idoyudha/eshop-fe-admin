@@ -11,7 +11,7 @@ interface PaymentAllResponse {
 
 export async function getAllPaymentsAction(token: string): Promise<Payment[]> {
     const paymentServiceBaseUrl = getBaseUrl(paymentService)
-    const response = await fetch(`${paymentServiceBaseUrl}/v1/payments/`, {
+    const response = await fetch(`${paymentServiceBaseUrl}/v1/payments`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
