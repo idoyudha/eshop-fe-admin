@@ -1,5 +1,6 @@
 "use client"
 
+import { ActionPaymentDropdown } from "@/components/action-payment-dropdown"
 import { Payment } from "@/models/payment"
 import { ColumnDef } from "@tanstack/react-table"
 
@@ -10,7 +11,7 @@ export function usePaymentColumns() {
             header: "ID",
         },
         {
-            accessorKey: "order_id",
+            accessorKey: "orderId",
             header: "Order ID",
         },
         {
@@ -22,8 +23,16 @@ export function usePaymentColumns() {
             header: "Note",
         },
         {
-            accessorKey: "created_at",
+            accessorKey: "createdAt",
             header: "Created At",
+        },
+        {
+            id: "actions",
+            enableHiding: false,
+            cell: ({ row }) => {
+                const payment = row.original
+                return <ActionPaymentDropdown {...payment} />
+            },
         }
     ]
     

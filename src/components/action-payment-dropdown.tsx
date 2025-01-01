@@ -1,10 +1,10 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Button } from "./ui/button"
 import { MoreHorizontal } from "lucide-react"
-import { Product } from "@/models/product"
-import { EditProductDialog } from "./edit-product-dialog"
+import { Payment } from "@/models/payment"
+import { ViewPaymentImageDialog } from "./view-payment-image-dialog"
 
-export const ActionProductDropdown = (product : Product) => {
+export const ActionPaymentDropdown = (payment : Payment) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -16,7 +16,7 @@ export const ActionProductDropdown = (product : Product) => {
             <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <EditProductDialog {...product} />
+                <ViewPaymentImageDialog url={payment.imageUrl} payment_id={payment.id} />
             </DropdownMenuContent>
         </DropdownMenu>
     )
