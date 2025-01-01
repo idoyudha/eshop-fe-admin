@@ -8,18 +8,15 @@ import { useAuth } from "@/context/auth-context";
 import { Payment } from "@/models/payment";
 import { useEffect, useState } from "react";
 import { ClientDataTable } from "./data-table-payment-client";
-import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function PaymentPage() {
     const { getAccessToken } = useAuth()
     const [payments, setPayments] = useState<Payment[]>([]);
-    const [loading, setLoading] = useState(false)
     const { toast } = useToast();
 
     const fetchPayments = async () => {
         try {
-            setLoading(true)
             const accessToken = await getAccessToken();
             if (accessToken) {
                 const paymentData = await getAllPaymentsAction(accessToken);
@@ -33,8 +30,6 @@ export default function PaymentPage() {
                 description: "Error fetching payments",
             })
             console.error('Error fetching payments:', error);
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -64,15 +59,7 @@ export default function PaymentPage() {
             </div>
             </header>
             <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                {
-                    loading ? (
-                        <div className="flex items-center justify-center">
-                            <Loader2 className="animate-spin" />
-                        </div>
-                    ) : (
-                        <ClientDataTable payments={payments} />
-                    )
-                }
+                <ClientDataTable payments={payments} />
             </div>
         </>
     )

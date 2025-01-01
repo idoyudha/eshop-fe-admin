@@ -9,13 +9,13 @@ interface PaymentAllResponse {
     message: string
 }
 
-export async function getAllPaymentsAction(token: string): Promise<Payment[]> {
+export async function getAllPaymentsAction(accessToken: string): Promise<Payment[]> {
     const paymentServiceBaseUrl = getBaseUrl(paymentService)
     const response = await fetch(`${paymentServiceBaseUrl}/v1/payments`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer ${accessToken}`,
         },
     });
     if (!response.ok) {
