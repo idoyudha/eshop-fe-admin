@@ -43,8 +43,7 @@ export function useProductColumns() {
                                 alt={`Product ${row.getValue("name")}`}
                                 width={50}
                                 height={50}
-                                className="object-cover rounded-md"
-                                priority={false}
+                                className="object-cover rounded-md w-full h-auto"
                             />
                         ) : (
                             <div className="w-[50px] h-[50px] bg-gray-100 rounded-md flex items-center justify-center">

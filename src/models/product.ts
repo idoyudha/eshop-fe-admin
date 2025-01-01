@@ -1,10 +1,10 @@
-import { Category } from "./category";
+import { ChildCategory } from "./category";
 
 export interface Product {
     id: string;
     sku: string;
     name: string;
-    category: Category;
+    category: ChildCategory;
     image_url: string;
     description: string;
     price: number;

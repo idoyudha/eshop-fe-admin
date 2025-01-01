@@ -11,32 +11,21 @@ interface CategoryAllResponse {
 }
 
 export async function getAllCategoriesAction(): Promise<ParentCategory[]> {
-    try {
-        // TODO: change to use the actual base url
-        const productServiceBaseUrl = getBaseUrl(productService) || 'http://localhost:2001'
-        const response = await fetch(`${productServiceBaseUrl}/v1/categories/`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        console.log('response', response)
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const categories: CategoryAllResponse = await response.json();
-        if (categories && categories.data) {
-            return structuredClone(categories.data);
-        }
-
-        return [];
-    } catch (error) {
-        console.error('Error fetching products:', error);
-        return [];
+    const productServiceBaseUrl = getBaseUrl(productService)
+    const response = await fetch(`${productServiceBaseUrl}/v1/categories/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
     }
+    const categories: CategoryAllResponse = await response.json();
+    if (categories && categories.data) {
+        return structuredClone(categories.data);
+    }
+    return [];
 }
 
 interface ProductAllResponse {
@@ -46,27 +35,19 @@ interface ProductAllResponse {
 }
 
 export async function getAllProductsAction(): Promise<Product[]> {
-    try {
-        const productServiceBaseUrl = getBaseUrl(productService)
-        const response = await fetch(`${productServiceBaseUrl}/v1/products/`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const products: ProductAllResponse = await response.json();
-        if (products && products.data) {
-            return structuredClone(products.data);
-        }
-
-        return [];
-    } catch (error) {
-        console.error('Error fetching products:', error);
-        return [];
+    const productServiceBaseUrl = getBaseUrl(productService)
+    const response = await fetch(`${productServiceBaseUrl}/v1/products/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
     }
+    const products: ProductAllResponse = await response.json();
+    if (products && products.data) {
+        return structuredClone(products.data);
+    }
+    return [];
 }

@@ -15,18 +15,19 @@ import {
 } from "@/components/ui/sidebar"
 
 export function NavItems({
-  items,
+  items, sub
 }: {
   items: {
     name: string
     url: string
     icon: LucideIcon
   }[]
+  sub: string
 }) {
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Admin</SidebarGroupLabel>
+      <SidebarGroupLabel>{sub}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <SidebarMenuItem key={item.name}>

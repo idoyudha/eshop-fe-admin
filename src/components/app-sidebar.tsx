@@ -5,7 +5,6 @@ import {
   Car,
   Container,
   CreditCard,
-  GalleryVerticalEnd,
   PieChart,
   Warehouse,
 } from "lucide-react"
@@ -65,8 +64,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <h2>Dashboard</h2>
       </SidebarHeader>
       <SidebarContent>
-        <NavItems items={data.customer} />
-        <NavItems items={data.admin} />
+        <NavItems items={data.customer} sub="Customer"/>
+        <NavItems items={data.admin} sub="Admin"/>
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

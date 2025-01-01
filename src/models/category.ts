@@ -4,7 +4,7 @@ export interface ParentCategory {
     childs: ChildCategory[];
 }
 
-interface ChildCategory {
+export interface ChildCategory {
     id: string;
     name: string;
 }
