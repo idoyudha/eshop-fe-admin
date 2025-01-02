@@ -27,3 +27,25 @@ export async function getAllPaymentsAction(accessToken: string): Promise<Payment
     }
     return [];
 }
+
+export interface createPaymentRequest {
+    paymentId: string
+    status: string
+}
+
+export async function updatePaymentStatusAction(data: createPaymentRequest, accessToken: string): Promise<Payment> {
+    const paymentServiceBaseUrl = getBaseUrl(paymentService)
+    const response = await fetch(`${paymentServiceBaseUrl}/v1/payments`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const payment: Payment = await response.json();
+    return structuredClone(payment);
+} 
