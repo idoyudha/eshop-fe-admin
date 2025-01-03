@@ -15,6 +15,7 @@ import { DropdownMenuItem } from "./ui/dropdown-menu"
 import { useState } from "react"
 import { useCategories } from "@/context/categories-context"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select"
+import { Textarea } from "./ui/textarea"
 
 export function EditProductDialog(product: Product) {
     const [open, setOpen] = useState(false)
@@ -84,6 +85,12 @@ export function EditProductDialog(product: Product) {
                             Image
                         </Label>
                         <Input id="image" defaultValue={product.image_url} className="col-span-3" />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="description" className="text-right">
+                            Description
+                        </Label>
+                        <Textarea id="description" defaultValue={product.description} className="col-span-3" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="price" className="text-right">
