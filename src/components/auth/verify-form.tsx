@@ -60,7 +60,6 @@ export function VerifyForm({ className, ...props }: React.ComponentPropsWithoutR
                                     type="username"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
-                                    placeholder="m@eshop.com"
                                     required
                                     readOnly
                                     className="bg-muted"

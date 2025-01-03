@@ -11,7 +11,7 @@ interface AuthContextType {
     login: (username: string, password: string) => Promise<void>;
     logout: () => Promise<void>;
     signup: (email: string, username: string, name: string, password: string) => Promise<void>;
-    confirmSignupCode: (email: string, code: string) => Promise<void>;
+    confirmSignupCode: (username: string, code: string) => Promise<void>;
     resendVerificationCode: (username: string) => Promise<void>;
     getAccessToken: () => Promise<string | null>;
 }
