@@ -17,6 +17,8 @@ export function getBaseUrl(serviceName: string) {
                 return process.env.ORDER_SERVICE || '';
             case 'PAYMENT_SERVICE':
                 return process.env.PAYMENT_SERVICE || '';
+            case 'WAREHOUSE_SERVICE':
+                return process.env.WAREHOUSE_SERVICE || '';
             default:
                 return '';
         }
@@ -32,7 +34,18 @@ export function getBaseUrl(serviceName: string) {
             return process.env.NEXT_PUBLIC_ORDER_SERVICE || '';
         case 'PAYMENT_SERVICE':
             return process.env.NEXT_PUBLIC_PAYMENT_SERVICE || '';
+        case 'WAREHOUSE_SERVICE':
+            return process.env.NEXT_PUBLIC_WAREHOUSE_SERVICE || '';
         default:
             return '';
     }
 }
+
+type Money = { price: number; currency: string };
+
+export const formatMoney = ({ price, currency }: Money & { locale?: string }) => {
+	return new Intl.NumberFormat("en-US", {
+		style: "currency",
+		currency
+	}).format(price);
+};
