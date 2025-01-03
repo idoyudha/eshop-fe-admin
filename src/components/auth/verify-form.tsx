@@ -1,5 +1,5 @@
 "use client"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
 import { cn } from "@/lib/utils"
@@ -12,7 +12,8 @@ import { Loader2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
 export function VerifyForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
-    const [username, setUsername] = useState("")
+    const searchParams = useSearchParams()
+    const [username, setUsername] = useState(searchParams.get('username') || "")
     const [code, setCode] = useState("")
     const [loading, setLoading] = useState(false)
     const router = useRouter()
@@ -61,6 +62,8 @@ export function VerifyForm({ className, ...props }: React.ComponentPropsWithoutR
                                     onChange={(e) => setUsername(e.target.value)}
                                     placeholder="m@eshop.com"
                                     required
+                                    readOnly
+                                    className="bg-muted"
                                 />
                             </div>
                             <div className="grid gap-2">
