@@ -88,10 +88,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
-    const confirmSignupCode = async (email: string, code: string) => {
+    const confirmSignupCode = async (username: string, code: string) => {
         try {
             const { isSignUpComplete } = await confirmSignUp({
-                username: email,
+                username: username,
                 confirmationCode: code
             });
         } catch (error) {

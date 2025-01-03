@@ -12,7 +12,7 @@ import { Loader2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
 export function VerifyForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
-    const [email, setEmail] = useState("")
+    const [username, setUsername] = useState("")
     const [code, setCode] = useState("")
     const [loading, setLoading] = useState(false)
     const router = useRouter()
@@ -23,7 +23,7 @@ export function VerifyForm({ className, ...props }: React.ComponentPropsWithoutR
 
         try {
             setLoading(true);
-            await confirmSignupCode(email, code);
+            await confirmSignupCode(username, code);
             toast({
                 title: 'Verification successful',
                 description: 'Verification successful. You can now login.',
@@ -53,12 +53,12 @@ export function VerifyForm({ className, ...props }: React.ComponentPropsWithoutR
                     <form onSubmit={handleConfirmSignUp}>
                         <div className="flex flex-col gap-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Email</Label>
+                                <Label htmlFor="username">Username</Label>
                                 <Input
-                                    id="email"
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    id="username"
+                                    type="username"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
                                     placeholder="m@eshop.com"
                                     required
                                 />
@@ -78,7 +78,7 @@ export function VerifyForm({ className, ...props }: React.ComponentPropsWithoutR
                             </Button>
 
                             <div className="text-center">
-                                <ResendVerificationButton username={email} />
+                                <ResendVerificationButton username={username} />
                             </div>
                         </div>
                     </form>
