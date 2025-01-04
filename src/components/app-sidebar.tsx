@@ -2,25 +2,18 @@
 
 import * as React from "react"
 import {
-  BookOpen,
-  Bot,
-  Box,
   Car,
+  CarIcon,
   Container,
   CreditCard,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
+  GemIcon,
+  MoveIcon,
   PieChart,
-  Settings2,
-  SquareTerminal,
   Warehouse,
 } from "lucide-react"
 
-import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
+import { NavItems } from "@/components/nav-items"
 import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
@@ -34,64 +27,44 @@ const data = {
   user: {
     name: "admin",
     email: "admin@eshop.com",
-    avatar: "/avatars/ido.jpg",
+    // avatar: "/avatars/ido.jpg",
   },
-  teams: [
+  customer: [
     {
-      name: "Eshop",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-  ],
-  navMain: [
-    {
-      title: "Products",
-      url: "#",
+      name: "Products",
+      url: "/product",
       icon: Car,
-      isActive: true,
-      items: [
-        {
-          title: "List",
-          url: "#",
-        },
-        {
-          title: "Categories",
-          url: "#",
-        },
-      ],
     },
     {
-      title: "Order",
-      url: "#",
+      name: "Orders",
+      url: "/order",
       icon: Container,
-      items: [
-        {
-          title: "List",
-          url: "#",
-        },
-      ],
     },
     {
-      title: "Payment",
-      url: "#",
+      name: "Payments",
+      url: "/payment",
       icon: CreditCard,
-      items: [
-        {
-          title: "List",
-          url: "#",
-        },
-      ],
     },
   ],
-  projects: [
+  admin: [
     {
       name: "Warehouse",
-      url: "#",
+      url: "/warehouse",
       icon: Warehouse,
     },
     {
+      name: "Warehouse Products",
+      url: "/warehouse-product",
+      icon: GemIcon,
+    },
+    {
+      name: "Stock Movements",
+      url: "/stock-movement",
+      icon: MoveIcon,
+    },
+    {
       name: "Sales",
-      url: "#",
+      url: "/sales",
       icon: PieChart,
     },
   ],
@@ -101,11 +74,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <h2>Dashboard</h2>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavItems items={data.customer} sub="Customer"/>
+        <NavItems items={data.admin} sub="Admin"/>
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
