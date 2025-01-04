@@ -26,3 +26,20 @@ export async function getAllStockMovementsAction(accessToken: string): Promise<S
     }
     return [];
 }
+
+export async function createStockMovementInAcion(accessToken: string, stockMovement: StockMovement): Promise<void> {
+    const warehouseServiceBaseUrl = getBaseUrl(warehouseService)
+    const response = await fetch(`${warehouseServiceBaseUrl}/v1/stock-movements`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(stockMovement),
+    });
+    
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.message || `stock movement failed with status: ${response.status}`);
+    }
+}
