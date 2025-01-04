@@ -1,40 +1,40 @@
 "use client"
 
-import { getAllWarehousesAction } from "@/actions/warehouse-actions";
 import { useAuth } from "@/context/auth-context";
 import { useToast } from "@/hooks/use-toast";
-import { Warehouse } from "@/models/warehouse";
+import { WarehouseProduct } from "@/models/warehouse";
 import { useEffect, useState } from "react";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { ClientDataTable } from "./data-table-warehouse-client";
+import { getAllWarehouseProductsAction } from "@/actions/warehouse-product-actions";
 
-export default function WarehousePage() {
+export default function WarehouseProductPage() {
     const { getAccessToken } = useAuth()
-    const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
+    const [warehouseProducts, setWarehouseProducts] = useState<WarehouseProduct[]>([]);
     const { toast } = useToast()
 
-    const fetchWarehouses = async () => {
+    const fetchWarehouseProducts = async () => {
         try {
             const accessToken = await getAccessToken();
             if (accessToken) {
-                const fetchedWarehouses = await getAllWarehousesAction(accessToken);
-                setWarehouses(fetchedWarehouses);
+                const fetchedWarehouses = await getAllWarehouseProductsAction(accessToken);
+                setWarehouseProducts(fetchedWarehouses);
             }
         } catch (error) {
-            console.error("Error fetching warehouses:", error);
+            console.error("Error fetching warehouse products:", error);
             toast({
                 variant: "destructive",
                 title: "Error",
-                description: "Error fetching warehouses",
+                description: "Error fetching warehouse products",
             })
-            console.error('Error fetching warehouses:', error);
+            console.error('Error fetching warehouse products:', error);
         }
     };
 
     useEffect(() => {
-        fetchWarehouses();
+        fetchWarehouseProducts();
     }, [getAccessToken]);
 
     return (
@@ -47,7 +47,7 @@ export default function WarehousePage() {
                 <BreadcrumbList>
                     <BreadcrumbItem className="hidden md:block">
                         <BreadcrumbLink href="#">
-                            Warehouse
+                            Warehouse Product
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator className="hidden md:block" />
@@ -59,7 +59,7 @@ export default function WarehousePage() {
             </div>
             </header>
             <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                <ClientDataTable warehouses={warehouses} />
+                <ClientDataTable warehouseProducts={warehouseProducts} />
             </div>
         </>
     )

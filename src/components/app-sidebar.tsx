@@ -54,12 +54,12 @@ const data = {
     },
     {
       name: "Warehouse Products",
-      url: "/warehouse-products",
+      url: "/warehouse-product",
       icon: GemIcon,
     },
     {
       name: "Stock Movements",
-      url: "/stock-movements",
+      url: "/stock-movement",
       icon: MoveIcon,
     },
     {

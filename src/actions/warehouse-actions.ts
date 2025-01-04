@@ -1,5 +1,5 @@
 import { getBaseUrl } from "@/lib/utils";
-import { StockMovement, Warehouse, WarehouseProduct } from "@/models/warehouse";
+import { Warehouse } from "@/models/warehouse";
 
 export const warehouseService = 'WAREHOUSE_SERVICE';
 
