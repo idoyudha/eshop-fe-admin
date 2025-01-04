@@ -38,4 +38,6 @@ export function useWarehouseColumns() {
             }
         }
     ]
+    
+    return colums
 }
