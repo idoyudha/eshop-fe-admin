@@ -1,6 +1,6 @@
 "use client"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
 import { cn } from "@/lib/utils"
 import { Label } from "../ui/label"
@@ -11,7 +11,9 @@ import { useAuth } from "@/context/auth-context"
 import { Loader2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
-export function VerifyForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
+type VerifyFormProps = React.HTMLAttributes<HTMLDivElement>
+
+function VerifyFormContent({ className, ...props }: VerifyFormProps) {
     const searchParams = useSearchParams()
     const [username, setUsername] = useState(searchParams.get('username') || "")
     const [code, setCode] = useState("")
@@ -19,6 +21,7 @@ export function VerifyForm({ className, ...props }: React.ComponentPropsWithoutR
     const router = useRouter()
     const { confirmSignupCode } = useAuth()
     const { toast } = useToast();
+
     const handleConfirmSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -87,5 +90,13 @@ export function VerifyForm({ className, ...props }: React.ComponentPropsWithoutR
                 </CardContent>
             </Card>
         </div>
+    )
+}
+
+export function VerifyForm(props: VerifyFormProps) {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <VerifyFormContent {...props} />
+        </Suspense>
     )
 }
