@@ -2,6 +2,7 @@
  
 import { ActionProductDropdown } from "@/components/action-product-dropdown"
 import { useCategories } from "@/context/categories-context"
+import { formatMoney } from "@/lib/utils"
 import { Product } from "@/models/product"
 import { ColumnDef } from "@tanstack/react-table"
 import Image from "next/image"
@@ -57,6 +58,10 @@ export function useProductColumns() {
         {
             accessorKey: "price",
             header: "Price",
+            cell: ({ row }) => {
+                const price = row.getValue("price") as number
+                return <span>{formatMoney({ price: price, currency: "USD" })}</span>
+            }
         },
         {
             accessorKey: "quantity",

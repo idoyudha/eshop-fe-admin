@@ -1,58 +1,50 @@
-import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { updateProductAction } from "@/actions/product-actions";
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Product } from "@/models/product"
-import { DropdownMenuItem } from "./ui/dropdown-menu"
-import { useRef, useState } from "react"
-import { useCategories } from "@/context/categories-context"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select"
-import { Textarea } from "./ui/textarea"
-import { useAuth } from "@/context/auth-context"
-import { useToast } from "@/hooks/use-toast"
-import { useRouter } from "next/navigation"
-import { Loader2 } from "lucide-react";
+"use client"
 
-export function EditProductDialog(product: Product) {
+import { createProductAction } from "@/actions/product-actions";
+import { useAuth } from "@/context/auth-context";
+import { useCategories } from "@/context/categories-context";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog";
+import { DialogTrigger } from "@radix-ui/react-dialog";
+import { Button } from "./ui/button";
+import { Label } from "./ui/label";
+import { Input } from "./ui/input";
+import { Loader2 } from "lucide-react";
+import { Textarea } from "./ui/textarea";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select";
+
+export function AddProductDialog() {
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
-    const { categories, categoriesMap, isLoading } = useCategories()
+    const { categories } = useCategories()
     const { isAuthenticated, getAccessToken } = useAuth();
     const { toast } = useToast();
     const router = useRouter()
     const formRef = useRef<HTMLFormElement>(null);
-    const [selectedCategory, setSelectedCategory] = useState(product.category_id);
+    const [selectedCategory, setSelectedCategory] = useState("");
 
-    // TODO: need to add initial values
-    const handleEditProduct = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleAddProduct = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!isAuthenticated) {
             router.push('/auth/login');
             return;
         }
-    
+
         try {
             setLoading(true)
             const accessToken = await getAccessToken();
             if (!accessToken) {
                 return;
             }
-    
+
             const formData = new FormData(formRef.current!);
             const imageFile = (formRef.current?.querySelector('input[type="file"]') as HTMLInputElement)?.files?.[0];
             if (!imageFile) {
                 throw new Error("Image file is required");
             }
-    
+
             const productData = {
                 name: formData.get('name') as string,
                 image: imageFile,
@@ -61,14 +53,14 @@ export function EditProductDialog(product: Product) {
                 quantity: parseInt(formData.get('quantity') as string),
                 category_id: selectedCategory,
             };
-    
-            await updateProductAction(product.id, productData, accessToken);
-    
+
+            await createProductAction(productData, accessToken);
+
             toast({
                 title: "Product added successfully",
                 description: "Your product has been added successfully",
             })
-    
+
             formRef.current?.reset();
             setSelectedCategory("")
             setLoading(false)
@@ -82,24 +74,19 @@ export function EditProductDialog(product: Product) {
         } finally {
             setLoading(false)
         }
-    } 
+    }    
     
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <DropdownMenuItem onSelect={(e) => {
-                    e.preventDefault()
-                    setOpen(true)
-                }}>
-                    Edit
-                </DropdownMenuItem>
+                <Button>Add Product</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
-                <form ref={formRef} onSubmit={handleEditProduct}>
+                <form ref={formRef} onSubmit={handleAddProduct}>
                     <DialogHeader>
-                        <DialogTitle>Edit Product</DialogTitle>
+                        <DialogTitle>Add Product</DialogTitle>
                         <DialogDescription>
-                            Edit your product here. Click save when you're done.
+                            Add your product here. Click save when you're done.
                         </DialogDescription>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
@@ -112,7 +99,6 @@ export function EditProductDialog(product: Product) {
                                 name="name"
                                 className="col-span-3"
                                 required
-                                value={product.name}
                             />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
@@ -137,7 +123,6 @@ export function EditProductDialog(product: Product) {
                                 name="description"
                                 className="col-span-3"
                                 required
-                                value={product.description}
                             />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
@@ -149,7 +134,17 @@ export function EditProductDialog(product: Product) {
                                 name="price"
                                 className="col-span-3"
                                 required
-                                value={product.price}
+                            />
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="quantity" className="text-right">
+                                Quantity
+                            </Label>
+                            <Input
+                                id="quantity"
+                                name="quantity"
+                                className="col-span-3"
+                                required
                             />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">

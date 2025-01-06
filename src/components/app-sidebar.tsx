@@ -3,8 +3,11 @@
 import * as React from "react"
 import {
   Car,
+  CarIcon,
   Container,
   CreditCard,
+  GemIcon,
+  MoveIcon,
   PieChart,
   Warehouse,
 } from "lucide-react"
@@ -48,6 +51,16 @@ const data = {
       name: "Warehouse",
       url: "/warehouse",
       icon: Warehouse,
+    },
+    {
+      name: "Warehouse Products",
+      url: "/warehouse-product",
+      icon: GemIcon,
+    },
+    {
+      name: "Stock Movements",
+      url: "/stock-movement",
+      icon: MoveIcon,
     },
     {
       name: "Sales",

@@ -1,5 +1,5 @@
 import { getBaseUrl } from "@/lib/utils";
-import { StockMovement, Warehouse, WarehouseProduct } from "@/models/warehouse";
+import { Warehouse } from "@/models/warehouse";
 
 export const warehouseService = 'WAREHOUSE_SERVICE';
 
@@ -26,4 +26,35 @@ export async function getAllWarehousesAction(accessToken: string): Promise<Wareh
         return structuredClone(warehouses.data);
     }
     return [];
+}
+
+interface WarehouseResponse {
+    code: number;
+    data: Warehouse;
+    message: string;
+}
+
+export interface createWarehouseRequest {
+    name: string;
+    street: string;
+    city: string;
+    state: string;
+    zip_code: string;
+}   
+
+export async function createWarehouseAction(accessToken: string, request: createWarehouseRequest): Promise<void> {
+    const warehouseServiceBaseUrl = getBaseUrl(warehouseService)
+    const response = await fetch(`${warehouseServiceBaseUrl}/v1/warehouse`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(request),
+    });
+    
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.message || `warehouse failed with status: ${response.status}`);
+    }
 }

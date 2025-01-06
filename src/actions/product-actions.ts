@@ -35,19 +35,85 @@ interface ProductAllResponse {
 }
 
 export async function getAllProductsAction(): Promise<Product[]> {
+    if (process.env.NEXT_PHASE === 'build') {
+        return [];
+    }
+
+    try {
+        const productServiceBaseUrl = getBaseUrl(productService)
+        const response = await fetch(`${productServiceBaseUrl}/v1/products/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            return [];
+        }
+        const products: ProductAllResponse = await response.json();
+        if (products && products.data) {
+            return structuredClone(products.data);
+        }
+        return [];
+    } catch (error) {
+        console.error('error fetching products:', error);
+        return [];
+    }
+}
+
+export interface createProductRequest {
+    name: string;
+    image: File;
+    description: string;
+    price: number;
+    quantity: number;
+    category_id: string;
+}
+
+export async function createProductAction(data: createProductRequest, accessToken: string): Promise<void> {
     const productServiceBaseUrl = getBaseUrl(productService)
-    const response = await fetch(`${productServiceBaseUrl}/v1/products/`, {
-        method: 'GET',
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('image', data.image);
+    formData.append('description', data.description);
+    formData.append('price', data.price.toString());
+    formData.append('quantity', data.quantity.toString());
+    formData.append('category_id', data.category_id);
+
+    const response = await fetch(`${productServiceBaseUrl}/v1/products`, {
+        method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
         },
+        body: formData,
     });
+
     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.message || `product failed with status: ${response.status}`);
     }
-    const products: ProductAllResponse = await response.json();
-    if (products && products.data) {
-        return structuredClone(products.data);
+}
+
+export async function updateProductAction(id: string, data: createProductRequest, accessToken: string): Promise<void> {
+    const productServiceBaseUrl = getBaseUrl(productService)
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('image', data.image);
+    formData.append('description', data.description);
+    formData.append('price', data.price.toString());
+    formData.append('quantity', data.quantity.toString());
+    formData.append('category_id', data.category_id);
+
+    const response = await fetch(`${productServiceBaseUrl}/v1/products/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+        },
+        body: formData,
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.message || `product failed with status: ${response.status}`);
     }
-    return [];
 }

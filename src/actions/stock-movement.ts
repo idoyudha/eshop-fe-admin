@@ -26,3 +26,28 @@ export async function getAllStockMovementsAction(accessToken: string): Promise<S
     }
     return [];
 }
+
+export interface createStockMoveInRequest {
+    product_id: string;
+    product_name: string;
+    quantity: number;
+    from_warehouse_id: string;
+    to_warehouse_id: string;
+}
+
+export async function createStockMovementInAcion(accessToken: string, request: createStockMoveInRequest): Promise<void> {
+    const warehouseServiceBaseUrl = getBaseUrl(warehouseService)
+    const response = await fetch(`${warehouseServiceBaseUrl}/v1/stock-movements/movein`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(request),
+    });
+    
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.message || `stock movement failed with status: ${response.status}`);
+    }
+}
