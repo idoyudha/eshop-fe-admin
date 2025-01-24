@@ -5,6 +5,9 @@ import {
     flexRender,
     getCoreRowModel,
     useReactTable,
+    SortingState,
+    getSortedRowModel,
+    Updater,
 } from "@tanstack/react-table"
 import {
     Table,
@@ -18,16 +21,30 @@ import {
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+    sorting?: SortingState
+    onSortingChange?: (updater: Updater<SortingState>) => void
 }
 
 export function DataTable<TData, TValue>({ 
     columns, 
-    data, 
+    data,
+    sorting,
+    onSortingChange,
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        onSortingChange,
+        state: {
+            sorting: [
+                {
+                    id: "created_at",
+                    desc: true,
+                }
+            ]
+        }
     })
 
     return (
@@ -36,18 +53,18 @@ export function DataTable<TData, TValue>({
                 <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
                     <TableRow key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => {
-                        return (
-                        <TableHead key={header.id}>
-                            {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                                )}
-                        </TableHead>
-                        )
-                    })}
+                        {headerGroup.headers.map((header) => {
+                            return (
+                                <TableHead key={header.id}>
+                                    {header.isPlaceholder
+                                    ? null
+                                    : flexRender(
+                                        header.column.columnDef.header,
+                                        header.getContext()
+                                        )}
+                                </TableHead>
+                            )
+                        })}
                     </TableRow>
                 ))}
                 </TableHeader>

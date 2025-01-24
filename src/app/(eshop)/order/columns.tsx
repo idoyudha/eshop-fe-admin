@@ -1,6 +1,8 @@
 "use client"
 
-import { Badge, badgeVariants } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ArrowUpDown } from "lucide-react";
 import { formatMoney } from "@/lib/utils";
 import { OrderView } from "@/models/order"
 import { ColumnDef } from "@tanstack/react-table"
@@ -52,14 +54,30 @@ export function useOrderColumns() {
                     default:
                         return <p>-</p>
                 }
-            }
+            },
         },
         {
             accessorKey: "created_at",
-            header: "Created At",
+            header: ({ column }) => {
+                return (
+                    <Button
+                        variant="ghost"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                    >
+                        Created At
+                        <ArrowUpDown />
+                    </Button>
+                )
+            },
             cell: ({ row }) => {
                 const createdAt = row.original.created_at;
                 return format(new Date(createdAt), "dd MMM yyyy, hh:mm:ss a");
+            },
+            enableSorting: true,
+            sortingFn: (rowA, rowB, columnId) => {
+                const dateA = new Date(rowA.original.created_at);
+                const dateB = new Date(rowB.original.created_at);
+                return dateA.getTime() - dateB.getTime();
             },
         }
     ]
