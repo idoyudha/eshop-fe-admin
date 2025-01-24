@@ -6,7 +6,7 @@ import { useOrderColumns } from "./columns"
 import { DataTable } from "@/components/data-table"
 import { OrderView } from "@/models/order"
 
-export function ClientDataTable({ orders }: { orders: OrderView[] }) {
+export function ClientDataTable({ orders, loading }: { orders: OrderView[], loading: boolean }) {
     const [sorting, setSorting] = useState<SortingState>([])
     const columns = useOrderColumns()
 
@@ -16,6 +16,7 @@ export function ClientDataTable({ orders }: { orders: OrderView[] }) {
             data={orders}
             sorting={sorting}
             onSortingChange={setSorting}
+            isLoading={loading}
         />
     )
 }

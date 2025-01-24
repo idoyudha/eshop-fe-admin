@@ -14,6 +14,7 @@ export default function OrderPage() {
     const { getAccessToken } = useAuth()
     const [orders, setOrders] = useState<OrderView[]>([]);
     const { toast } = useToast()
+    const [isLoading, setIsLoading] = useState(true);
 
     const fetchOrders = async () => {
         try {
@@ -30,6 +31,8 @@ export default function OrderPage() {
                 description: "Error fetching orders",
             })
             console.error('Error fetching orders:', error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -59,7 +62,7 @@ export default function OrderPage() {
             </div>
             </header>
             <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                <ClientDataTable orders={orders} />
+                <ClientDataTable orders={orders} loading={isLoading}/>
             </div>
         </>
     )
