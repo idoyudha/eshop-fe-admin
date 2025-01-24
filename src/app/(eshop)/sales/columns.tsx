@@ -9,10 +9,10 @@ import { formatMoney } from "@/lib/utils";
 
 export function useSalesColumns() {
     const columns: ColumnDef<Sale>[] = [
-        {
-            accessorKey: "id",
-            header: "ID",
-        },
+        // {
+        //     accessorKey: "id",
+        //     header: "ID",
+        // },
         {
             accessorKey: "user_id",
             header: "User ID",

@@ -1,43 +1,43 @@
 "use client"
 
-import { getOrdersAction } from "@/actions/order-actions";
-import { useAuth } from "@/context/auth-context";
-import { useToast } from "@/hooks/use-toast";
-import { OrderView } from "@/models/order";
+import { useAuth } from "@/context/auth-context"
 import { useEffect, useState } from "react";
+import { Sale } from "@/models/sales";
+import { useToast } from "@/hooks/use-toast";
+import { getSalesAction } from "@/actions/sale-actions";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { ClientDataTable } from "./data-table-order-client";
+import { ClientDataTable } from "./data-table-sales-client";
 
-export default function OrderPage() {
+export default function SalesPage() {
     const { getAccessToken } = useAuth()
-    const [orders, setOrders] = useState<OrderView[]>([]);
+    const [sales, setSales] = useState<Sale[]>([]);
     const { toast } = useToast()
     const [isLoading, setIsLoading] = useState(true);
 
-    const fetchOrders = async () => {
+    const fetchSales = async () => {
         try {
             const accessToken = await getAccessToken();
             if (accessToken) {
-                const orderData = await getOrdersAction(accessToken);
-                setOrders(orderData || []);
+                const saleData = await getSalesAction(accessToken);
+                setSales(saleData || []);
             }
         } catch (error) {
-            setOrders([]);
+            setSales([]);
             toast({
                 variant: "destructive",
                 title: "Error",
-                description: "Error fetching orders",
+                description: "Error fetching sales",
             })
-            console.error('Error fetching orders:', error);
+            console.error('Error fetching sales:', error);
         } finally {
             setIsLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchOrders();
+        fetchSales();
     }, [getAccessToken]);
 
     return (
@@ -62,7 +62,7 @@ export default function OrderPage() {
             </div>
             </header>
             <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                <ClientDataTable orders={orders} loading={isLoading}/>
+                <ClientDataTable sales={sales} loading={isLoading}/>
             </div>
         </>
     )
