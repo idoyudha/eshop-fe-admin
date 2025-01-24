@@ -38,12 +38,7 @@ export function DataTable<TData, TValue>({
         getSortedRowModel: getSortedRowModel(),
         onSortingChange,
         state: {
-            sorting: [
-                {
-                    id: "created_at",
-                    desc: true,
-                }
-            ]
+            sorting,
         }
     })
 
