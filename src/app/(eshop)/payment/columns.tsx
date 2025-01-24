@@ -1,5 +1,6 @@
 "use client"
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import { ActionPaymentDropdown } from "@/components/action-payment-dropdown"
@@ -20,6 +21,19 @@ export function usePaymentColumns() {
         {
             accessorKey: "status",
             header: "Payment Status",
+            cell: ({ row }) => {
+                const paymentStatus = row.original.status;
+                switch (paymentStatus) {
+                    case "PENDING":
+                        return <Badge variant="secondary">{paymentStatus}</Badge>;
+                    case "APPROVED":
+                        return <Badge>{paymentStatus}</Badge>;
+                    case "REJECTED":
+                        return <Badge variant="destructive">{paymentStatus}</Badge>;
+                    default:
+                        return <p>-</p>
+                }
+            },
         },
         {
             accessorKey: "note",
