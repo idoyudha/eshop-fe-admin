@@ -26,7 +26,6 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { useAuth } from "@/context/auth-context"
-import { toast } from "sonner"
 import { Button } from "./ui/button"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"

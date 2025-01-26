@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { runWithAmplifyServerContext } from "./lib/auth-config";
 import { fetchAuthSession } from 'aws-amplify/auth/server';
+import { signOut } from 'aws-amplify/auth';
 
 export async function middleware(request: NextRequest) {
     const response = NextResponse.next()
@@ -10,6 +11,13 @@ export async function middleware(request: NextRequest) {
         operation: async (contextSpec) => {
             try {
                 const session = await fetchAuthSession(contextSpec)
+                const userAttributes = session.tokens?.idToken?.payload;
+                const isAdmin = userAttributes?.['custom:role'] === 'admin';
+                if (!isAdmin) {
+                    await signOut();
+                    return NextResponse.rewrite(new URL('/auth/unauuthorized', request.url));
+                }
+
                 return (
                     session.tokens?.accessToken !== undefined &&
                     session.tokens?.idToken !== undefined

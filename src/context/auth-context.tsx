@@ -1,6 +1,5 @@
 "use client"
 
-import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 import { getCurrentUser, signOut, signIn, AuthUser, fetchAuthSession, signUp, confirmSignUp, resendSignUpCode } from 'aws-amplify/auth';
 
@@ -22,7 +21,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState<AuthUser | null>(null);
     const [loading, setLoading] = useState(true);
-    const router = useRouter();
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -119,7 +117,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
     
     const logout = async () => {
-        console.log('LOGOUT');
         try {
             await signOut();
             setUser(null);
