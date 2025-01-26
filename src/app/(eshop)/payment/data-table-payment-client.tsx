@@ -6,7 +6,7 @@ import { usePaymentColumns } from "./columns"
 import { DataTable } from "@/components/data-table"
 import { Payment } from "@/models/payment"
 
-export function ClientDataTable({ payments }: { payments: Payment[] }) {
+export function ClientDataTable({ payments, loading }: { payments: Payment[], loading: boolean }) {
     const [sorting, setSorting] = useState<SortingState>([])
     const columns = usePaymentColumns()
     return (
@@ -15,6 +15,7 @@ export function ClientDataTable({ payments }: { payments: Payment[] }) {
             data={payments}
             sorting={sorting}
             onSortingChange={setSorting}
+            isLoading={loading}
         />
     )
 }

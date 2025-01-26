@@ -14,6 +14,7 @@ export default function PaymentPage() {
     const { getAccessToken } = useAuth()
     const [payments, setPayments] = useState<Payment[]>([]);
     const { toast } = useToast();
+    const [isLoading, setIsLoading] = useState(true);
 
     const fetchPayments = async () => {
         try {
@@ -30,6 +31,8 @@ export default function PaymentPage() {
                 description: "Error fetching payments",
             })
             console.error('Error fetching payments:', error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -59,7 +62,10 @@ export default function PaymentPage() {
             </div>
             </header>
             <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                <ClientDataTable payments={payments} />
+                <ClientDataTable 
+                    payments={payments}
+                    loading={isLoading}
+                />
             </div>
         </>
     )
