@@ -15,13 +15,17 @@ export default function SalesPage() {
     const [sales, setSales] = useState<Sale[]>([]);
     const { toast } = useToast()
     const [isLoading, setIsLoading] = useState(true);
+    const [page, setPage] = useState(0); // for pagination
+    const [limit, setLimit] = useState(30); // for pagination
+    const [count, setCount] = useState(0); // for pagination
 
     const fetchSales = async () => {
         try {
             const accessToken = await getAccessToken();
             if (accessToken) {
-                const saleData = await getSalesAction(accessToken);
-                setSales(saleData || []);
+                const { data, count } = await getSalesAction(accessToken, page, limit);
+                setSales(data || []);
+                setCount(count);
             }
         } catch (error) {
             setSales([]);
@@ -38,7 +42,7 @@ export default function SalesPage() {
 
     useEffect(() => {
         fetchSales();
-    }, [getAccessToken]);
+    }, [getAccessToken, page, limit]);
 
     return (
         <>
@@ -62,7 +66,10 @@ export default function SalesPage() {
             </div>
             </header>
             <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                <ClientDataTable sales={sales} loading={isLoading}/>
+                <ClientDataTable 
+                    sales={sales} 
+                    loading={isLoading}
+                />
             </div>
         </>
     )
