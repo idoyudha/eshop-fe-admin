@@ -2,12 +2,11 @@
 
 import { useAuth } from "@/context/auth-context";
 import { useToast } from "@/hooks/use-toast";
-import { StockMovement, WarehouseProduct } from "@/models/warehouse";
+import { StockMovement } from "@/models/warehouse";
 import { useEffect, useState } from "react";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { getAllWarehouseProductsAction } from "@/actions/warehouse-product-actions";
 import { getAllStockMovementsAction } from "@/actions/stock-movement";
 import { ClientDataTable } from "./data-table-stock-movement-client";
 import { AddStockMoveInDialog } from "@/components/add-stock-movein-dialog";
@@ -16,6 +15,7 @@ export default function StockMovementPage() {
     const { getAccessToken } = useAuth()
     const [stockMovements, setStockMovements] = useState<StockMovement[]>([]);
     const { toast } = useToast()
+    const [isLoading, setIsLoading] = useState(true);
 
     const fetchWarehouseProducts = async () => {
         try {
@@ -32,6 +32,8 @@ export default function StockMovementPage() {
                 description: "Error fetching stock movements",
             })
             console.error('Error fetching stock movements:', error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -64,7 +66,10 @@ export default function StockMovementPage() {
                 </div>
             </header>
             <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                <ClientDataTable stockMovements={stockMovements} />
+                <ClientDataTable 
+                    stockMovements={stockMovements} 
+                    loading={isLoading}
+                />
             </div>
         </>
     )

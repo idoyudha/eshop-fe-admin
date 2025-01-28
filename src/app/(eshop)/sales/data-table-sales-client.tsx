@@ -2,18 +2,18 @@
 
 import { useState } from "react"
 import { SortingState } from "@tanstack/react-table"
-import { useOrderColumns } from "./columns"
+import { useSalesColumns } from "./columns"
 import { DataTable } from "@/components/data-table"
-import { OrderView } from "@/models/order"
+import { Sale } from "@/models/sales"
 
-export function ClientDataTable({ orders, loading }: { orders: OrderView[], loading: boolean }) {
+export function ClientDataTable({ sales, loading }: { sales: Sale[], loading: boolean }) {
     const [sorting, setSorting] = useState<SortingState>([])
-    const columns = useOrderColumns()
+    const columns = useSalesColumns()
 
     return (
         <DataTable 
             columns={columns} 
-            data={orders}
+            data={sales}
             sorting={sorting}
             onSortingChange={setSorting}
             isLoading={loading}

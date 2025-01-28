@@ -1,6 +1,5 @@
 "use client"
 
-import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 import { getCurrentUser, signOut, signIn, AuthUser, fetchAuthSession, signUp, confirmSignUp, resendSignUpCode } from 'aws-amplify/auth';
 
@@ -22,7 +21,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState<AuthUser | null>(null);
     const [loading, setLoading] = useState(true);
-    const router = useRouter();
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -57,7 +55,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             const { isSignedIn } = await signIn({ username, password });
             if (isSignedIn) {
                 const currentUser = await getCurrentUser();
-
+                const session = await fetchAuthSession();
+                const userAttributes = session.tokens?.idToken?.payload;
+                const isAdmin = userAttributes?.['custom:role'] === 'admin';
+                
+                if (!isAdmin) {
+                    await signOut();
+                    throw new Error('You are not an admin');
+                }
+                
                 setUser(currentUser);
                 setIsAuthenticated(true);
             }
@@ -75,7 +81,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 options: {
                     userAttributes: {
                         email, 
-                        name
+                        name,
+                        'custom:role': 'admin'
                     },
                     autoSignIn: { 
                         enabled: true

@@ -36,6 +36,8 @@ export function getBaseUrl(serviceName: string) {
             return process.env.NEXT_PUBLIC_PAYMENT_SERVICE || '';
         case 'WAREHOUSE_SERVICE':
             return process.env.NEXT_PUBLIC_WAREHOUSE_SERVICE || '';
+        case 'SALES_SERVICE':
+            return process.env.NEXT_PUBLIC_SALES_SERVICE || '';
         default:
             return '';
     }

@@ -15,6 +15,7 @@ export default function WarehousePage() {
     const { getAccessToken } = useAuth()
     const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
     const { toast } = useToast()
+    const [isLoading, setLoading] = useState(false)
 
     const fetchWarehouses = async () => {
         try {
@@ -31,6 +32,8 @@ export default function WarehousePage() {
                 description: "Error fetching warehouses",
             })
             console.error('Error fetching warehouses:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -63,7 +66,10 @@ export default function WarehousePage() {
                 </div>
             </header>
             <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                <ClientDataTable warehouses={warehouses} />
+                <ClientDataTable 
+                    warehouses={warehouses}
+                    loading={isLoading}
+                />
             </div>
         </>
     )
