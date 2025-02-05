@@ -28,3 +28,18 @@ export async function getSalesAction(accessToken: string, skip: number, limit: n
     }
     return { data: [], count: 0 };
 }
+
+export async function getSalesReportXLSXAction(accessToken: string): Promise<Blob> {
+    const salesServiceBaseUrl = getBaseUrl(salesService)
+    const response = await fetch(`${salesServiceBaseUrl}/v1/sales/xlsx-report`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+        },
+    });
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.blob();
+}

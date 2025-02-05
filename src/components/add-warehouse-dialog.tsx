@@ -33,6 +33,8 @@ export function AddWarehouseDialog() {
             return;
         }
 
+        setLoading(true)
+
         try {
             const accessToken = await getAccessToken();
             if (!accessToken) {
@@ -52,15 +54,15 @@ export function AddWarehouseDialog() {
                 title: "Success",
                 description: "Warehouse created successfully",
             })
+            setLoading(false)
             setOpen(false)
         } catch (error) {
+            setLoading(false)
             toast({
                 title: "Error",
                 description: "Something went wrong",
                 variant: "destructive",
             })
-        } finally {
-            setLoading(false)
         }
     }
 
